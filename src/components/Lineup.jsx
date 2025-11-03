@@ -8,7 +8,7 @@ const Lineup = ({ resources, scrollToNewsletter }) => {
           backgroundImage: `url(${resources.backgroundImgRed})`,
         }}
       >
-        <div className="absolute inset-0 bg-linear-to-b from-red-600/90 to-red-800/90"></div>
+        {/* <div className="absolute inset-0 bg-linear-to-b from-red-600/90 to-red-800/90"></div> */}
       </div>
 
       {/* Decorative Elements */}

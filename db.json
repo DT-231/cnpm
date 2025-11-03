@@ -289,6 +289,16 @@
       "id": 58,
       "name": "Thanh tú ",
       "email": "123123@gmail.com"
+    },
+    {
+      "id": 59,
+      "name": "Cà phê Trứng",
+      "email": "test_manager213123@coffee.com"
+    },
+    {
+      "id": 60,
+      "name": "cà phê sữa đem",
+      "email": "h23.nvh@gmail.com"
     }
   ]
 }

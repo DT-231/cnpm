@@ -32,69 +32,72 @@ const Newsletter = ({
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h3 className="text-3xl font-bold mb-8 text-white text-center">Danh sách đăng ký</h3>
           
-          {loading ? (
-            <div className="flex justify-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-500"></div>
-            </div>
-          ) : (
-            <>
-              {/* White background table */}
-              <div className="max-w-3xl mx-auto">
-                <div className="bg-white rounded-lg overflow-hidden shadow-2xl">
-                  <div className="grid grid-cols-2 gap-4 p-4 bg-red-600 text-white font-medium">
-                    <div className="text-lg">Họ và tên</div>
-                    <div className="text-lg">Email</div>
-                  </div>
-                  <div className="max-h-80 overflow-y-auto">
-                    {registrations.map((registration, index) => (
-                      <div key={registration.id} className="grid grid-cols-2 gap-4 p-4 border-b border-gray-200 hover:bg-gray-50 transition-colors">
-                        <span className="text-gray-900 font-medium">{registration.name}</span>
-                        <span className="text-gray-700">{registration.email}</span>
-                      </div>
-                    ))}
-                  </div>
+          {/* White background table */}
+          <div className="max-w-3xl mx-auto relative">
+            {/* Loading overlay */}
+            {loading && (
+              <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-20 rounded-lg">
+                <div className="flex flex-col items-center space-y-3">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-500"></div>
+                  <span className="text-gray-700 font-medium">Đang tải...</span>
                 </div>
               </div>
-
-              {/* Pagination */}
-              <div className="flex justify-center space-x-2 mt-6">
-                <button
-                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                  disabled={currentPage === 1}
-                  className="px-4 py-2 bg-white/90 text-gray-900 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white transition-colors font-medium"
-                >
-                  ‹ Trước
-                </button>
-                
-                {[...Array(Math.min(5, totalPages))].map((_, i) => {
-                  const pageNum = currentPage <= 3 ? i + 1 : currentPage - 2 + i;
-                  if (pageNum > totalPages) return null;
-                  
-                  return (
-                    <button
-                      key={pageNum}
-                      onClick={() => setCurrentPage(pageNum)}
-                      className={`px-4 py-2 rounded transition-colors font-medium ${
-                        currentPage === pageNum
-                          ? 'bg-red-600 text-white'
-                          : 'bg-white/90 text-gray-900 hover:bg-white'
-                      }`}
-                    >
-                      {pageNum}
-                    </button>
-                  )
-                })}
-                
-                <button
-                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                  disabled={currentPage === totalPages}
-                  className="px-4 py-2 bg-white/90 text-gray-900 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white transition-colors font-medium"
-                >
-                  Sau ›
-                </button>
+            )}
+            
+            <div className="bg-white rounded-lg overflow-hidden shadow-2xl">
+              <div className="grid grid-cols-2 gap-4 p-4 bg-red-600 text-white font-medium">
+                <div className="text-lg">Họ và tên</div>
+                <div className="text-lg">Email</div>
               </div>
-            </>
-          )}
+              <div className="max-h-80 overflow-y-auto">
+                {registrations.map((registration, index) => (
+                  <div key={registration.id} className="grid grid-cols-2 gap-4 p-4 border-b border-gray-200 hover:bg-gray-50 transition-colors">
+                    <span className="text-gray-900 font-medium">{registration.name}</span>
+                    <span className="text-gray-700">{registration.email}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Pagination */}
+          <div className="flex justify-center space-x-2 mt-6">
+            <button
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1 || loading}
+              className="px-4 py-2 bg-white/90 text-gray-900 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white transition-colors font-medium"
+            >
+              ‹ Trước
+            </button>
+            
+            {[...Array(Math.min(5, totalPages))].map((_, i) => {
+              const pageNum = currentPage <= 3 ? i + 1 : currentPage - 2 + i;
+              if (pageNum > totalPages) return null;
+              
+              return (
+                <button
+                  key={pageNum}
+                  onClick={() => setCurrentPage(pageNum)}
+                  disabled={loading}
+                  className={`px-4 py-2 rounded transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed ${
+                    currentPage === pageNum
+                      ? 'bg-red-600 text-white'
+                      : 'bg-white/90 text-gray-900 hover:bg-white'
+                  }`}
+                >
+                  {pageNum}
+                </button>
+              )
+            })}
+            
+            <button
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages || loading}
+              className="px-4 py-2 bg-white/90 text-gray-900 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white transition-colors font-medium"
+            >
+              Sau ›
+            </button>
+          </div>
         </div>
       </section>
       {/* Newsletter Form Section */}
